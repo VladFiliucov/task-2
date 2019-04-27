@@ -115,24 +115,10 @@ def work(filename = 'data.txt')
 end
 
 filenames = ['100_lines', '1000_lines', '10000_lines', '20000_lines']
-# filenames = Array.new(5) { '100_lines' }
-# filenames.each do |fn|
-#   work("sample_data/#{fn}.txt")
-# end
-# require "benchmark/ips"
 # require "benchmark"
 
 # system("sed -n '2p' sample_data/1000_lines.txt")
 
-# Benchmark.ips do |x|
-#   filenames.each do |filename|
-#     x.report(filename) do
-#       work("sample_data/#{filename}.txt")
-#     end
-#   end
-#   x.compare!
-# end
-#
 # Benchmark.bmbm(2) do |x|
 #   filenames.each do |fn|
 #     x.report(fn) do
@@ -152,18 +138,18 @@ filenames = ['100_lines', '1000_lines', '10000_lines', '20000_lines']
    # end
  # end
 
-# require 'stackprof'
+require 'stackprof'
 
-# StackProf.run(mode: :object, out: 'tmp/stackprof.dump', raw: true) do
-#   work("sample_data/20000_lines.txt")
-# end
+StackProf.run(mode: :object, out: 'tmp/stackprof.dump', raw: true) do
+  work("sample_data/20000_lines.txt")
+end
 
-# profile_data = StackProf.run(mode: :object) do
-#   work("sample_data/20000_lines.txt")
-# end
+profile_data = StackProf.run(mode: :object) do
+  work("sample_data/20000_lines.txt")
+end
 
-# StackProf::Report.new(profile_data).print_text
-# StackProf::Report.new(profile_data).print_graphviz
+StackProf::Report.new(profile_data).print_text
+StackProf::Report.new(profile_data).print_graphviz
 
 # require 'memory_profiler'
 
