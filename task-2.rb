@@ -146,14 +146,3 @@ filenames = ['100_lines', '1000_lines', '10000_lines', '20000_lines']
 
 # report = MemoryProfiler.stop
 # report.pretty_print(scale_bytes: true)
-#
-# require 'ruby-prof'
-
-# # profile the code
-# result = RubyProf.profile do
-#   work("sample_data/20000_lines.txt")
-# end
-
-# # print a graph profile to text
-# printer = RubyProf::GraphPrinter.new(result)
-# printer.print(STDOUT, {})
