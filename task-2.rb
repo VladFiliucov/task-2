@@ -138,19 +138,6 @@ filenames = ['100_lines', '1000_lines', '10000_lines', '20000_lines']
    # end
  # end
 
-require 'stackprof'
-
-StackProf.run(mode: :object, out: 'tmp/stackprof.dump', raw: true) do
-  work("sample_data/20000_lines.txt")
-end
-
-profile_data = StackProf.run(mode: :object) do
-  work("sample_data/20000_lines.txt")
-end
-
-StackProf::Report.new(profile_data).print_text
-StackProf::Report.new(profile_data).print_graphviz
-
 # require 'memory_profiler'
 
 # MemoryProfiler.start
