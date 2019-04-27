@@ -122,7 +122,7 @@ filenames = ['100_lines', '1000_lines', '10000_lines', '20000_lines']
 # require "benchmark/ips"
 # require "benchmark"
 
-system("sed -n '2p' sample_data/1000_lines.txt")
+# system("sed -n '2p' sample_data/1000_lines.txt")
 
 # Benchmark.ips do |x|
 #   filenames.each do |filename|
@@ -164,14 +164,6 @@ system("sed -n '2p' sample_data/1000_lines.txt")
 
 # StackProf::Report.new(profile_data).print_text
 # StackProf::Report.new(profile_data).print_graphviz
-
-# def print_memory_usage
-#   "%d MB" % (`ps -o rss= -p #{Process.pid}`.to_i / 1024)
-# end
-
-# puts "rss before: #{print_memory_usage}"
-# work("data_large.txt")
-# puts "rss after: #{print_memory_usage}"
 
 # require 'memory_profiler'
 
