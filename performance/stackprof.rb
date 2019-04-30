@@ -9,6 +9,15 @@ end
 profile_data = StackProf.run(mode: :object) do
   work("sample_data/60000_lines.txt")
 end
+#
+# StackProf.run(mode: :object, out: 'tmp/stackprof.dump', raw: true) do
+# StackProf.run(mode: :cpu, out: 'tmp/stackprof-cpu.dump') do
+#   work("sample_data/60000_lines.txt")
+# end
+
+# profile_data = StackProf.run(mode: :cpu) do
+#   work("sample_data/60000_lines.txt")
+# end
 
 StackProf::Report.new(profile_data).print_text
 StackProf::Report.new(profile_data).print_graphviz
