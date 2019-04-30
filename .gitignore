@@ -6,3 +6,4 @@ bin
 data_large.txt
 tmp
 graphviz.png
+massif.out.*
