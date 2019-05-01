@@ -58,7 +58,11 @@ def work(filename = 'data.txt')
   users = []
   sessions = []
 
-  File.foreach(filename) do |line|
+  file = File.open(filename, 'r')
+
+  # File.foreach(filename) do |line|
+  while !file.eof?
+   line = file.readline
     # progressbar.increment
     if line.start_with?(SESSION_PREFIX)
       sessions << parse_session(line)
@@ -70,7 +74,6 @@ def work(filename = 'data.txt')
       report[:totalUsers] += 1
     end
   end
-
 
   all_browsers = []
   users_objects = []
@@ -91,11 +94,7 @@ def work(filename = 'data.txt')
     all_browsers << sess[:browser]
   end
 
-  report[:allBrowsers] = all_browsers
-    .uniq!
-    .sort!
-    .join(DELIMITER)
-
+  report[:allBrowsers] = report_all_browsers(all_browsers)
   report[:uniqueBrowsersCount] = all_browsers.size
 
   users.each do |user|
@@ -141,7 +140,13 @@ def work(filename = 'data.txt')
   File.write("result.json", report.to_json << "\n")
 end
 
-filenames = ['100_lines', '1000_lines', '10000_lines', '20000_lines']
+private
+
+def report_all_browsers(browsers)
+  browsers.uniq!
+    .sort!
+    .join(DELIMITER)
+end
 
 # system("sed -n '2p' sample_data/1000_lines.txt")
 

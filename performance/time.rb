@@ -8,7 +8,7 @@ require "benchmark"
 # end
 
 Benchmark.bmbm(2) do |x|
-  x.report('Big file') do
+  x.report('60K lines file') do
     work("sample_data/60000_lines.txt")
   end
 end
