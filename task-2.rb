@@ -142,7 +142,6 @@ def work(filename = 'data.txt')
 end
 
 filenames = ['100_lines', '1000_lines', '10000_lines', '20000_lines']
-# require "benchmark"
 
 # system("sed -n '2p' sample_data/1000_lines.txt")
 
@@ -156,15 +155,6 @@ filenames = ['100_lines', '1000_lines', '10000_lines', '20000_lines']
 #   end
 # end
 #
- # require "benchmark"
-
- # Benchmark.bmbm(2) do |x|
- #   x.report('Big file') do
-     # puts Process.pid
-     # work("data_large.txt")
-   # end
- # end
-
 # require 'memory_profiler'
 
 # MemoryProfiler.start
