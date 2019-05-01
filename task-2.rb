@@ -17,6 +17,12 @@ class User
     @attributes = attributes
     @sessions = sessions
   end
+
+  def sorted_session_dates
+    sessions.map! do |s|
+      Date.civil(s[:date][0,4].to_i, s[:date][5,2].to_i, s[:date][8,2].to_i)
+    end.sort! {|a,b| b <=> a}
+  end
 end
 
 def parse_user(user)
@@ -127,9 +133,7 @@ def work(filename = 'data.txt')
       'browsers' => user_browsers.sort.join(', '),
       'usedIE' => !user_browsers.find { |b| b =~ /INTERNET EXPLORER/ }.nil?,
       'alwaysUsedChrome' => !user_browsers.find { |b| b !~ /CHROME/ },
-      'dates' => u.sessions.map! do |s|
-        Date.civil(s[:date][0,4].to_i, s[:date][5,2].to_i, s[:date][8,2].to_i)
-      end.sort! {|a,b| b <=> a}
+      'dates' => u.sorted_session_dates
       # line up
     }
     counter += 1
@@ -147,7 +151,7 @@ def report_all_browsers(browsers)
     .sort!
     .join(DELIMITER)
 end
-
+#
 # system("sed -n '2p' sample_data/1000_lines.txt")
 
 # Benchmark.bmbm(2) do |x|
