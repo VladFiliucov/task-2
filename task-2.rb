@@ -23,6 +23,10 @@ class User
       Date.civil(s[:date][0,4].to_i, s[:date][5,2].to_i, s[:date][8,2].to_i)
     end.sort! {|a,b| b <=> a}
   end
+
+  def sessions_time
+    sessions.map { |s| s[:time].to_i }
+  end
 end
 
 def parse_user(user)
@@ -123,7 +127,7 @@ def work(filename = 'data.txt')
     u = users_objects.shift
     user_key = u.attributes[:name]
 
-    user_sessions_time = u.sessions.map { |s| s[:time].to_i }
+    user_sessions_time = u.sessions_time
     user_browsers = u.sessions.map { |s| s[:browser] }
 
     report['usersStats'][user_key] = {
