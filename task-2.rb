@@ -3,7 +3,7 @@
 require 'json'
 require 'date'
 require 'pry'
-require 'ruby-progressbar'
+# require 'ruby-progressbar'
 
 DELIMITER = ','.freeze
 USER_PREFIX = 'user,'.freeze
@@ -41,14 +41,14 @@ def parse_session(session)
 end
 
 def work(filename = 'data.txt')
-  progressbar_count = %x( wc -l #{filename} ).to_i
+  # progressbar_count = %x( wc -l #{filename} ).to_i
 
-  progressbar = ProgressBar.create(
-    title: 'Reading users and sessions: ',
-    total: progressbar_count,
-    format: '%t %a, %J, %E %B' # elapsed time, percent complete, estimate, bar
-    # output: File.open(File::NULL, 'w') # IN TEST ENV
-  )
+  # progressbar = ProgressBar.create(
+  #   title: 'Reading users and sessions: ',
+  #   total: progressbar_count,
+  #   format: '%t %a, %J, %E %B' # elapsed time, percent complete, estimate, bar
+  #   # output: File.open(File::NULL, 'w') # IN TEST ENV
+  # )
 
   report = {
     totalUsers: 0,
@@ -59,7 +59,7 @@ def work(filename = 'data.txt')
   sessions = []
 
   File.foreach(filename) do |line|
-    progressbar.increment
+    # progressbar.increment
     if line.start_with?(SESSION_PREFIX)
       sessions << parse_session(line)
       next if report[:totalSessions] += 1
@@ -76,16 +76,16 @@ def work(filename = 'data.txt')
   users_objects = []
   sessions_by_user = {}
 
-  sessions_parsing_progressbar = ProgressBar.create(
-    title: 'Processing Sessions: ',
-    total: sessions.size,
-    format: '%t %a, %J, %E %B' # elapsed time, percent complete, estimate, bar
-    # output: File.open(File::NULL, 'w') # IN TEST ENV
-  )
+  # sessions_parsing_progressbar = ProgressBar.create(
+  #   title: 'Processing Sessions: ',
+  #   total: sessions.size,
+  #   format: '%t %a, %J, %E %B' # elapsed time, percent complete, estimate, bar
+  #   # output: File.open(File::NULL, 'w') # IN TEST ENV
+  # )
 
   while sessions[0]
     sess = sessions.shift
-    sessions_parsing_progressbar.increment
+    # sessions_parsing_progressbar.increment
     next unless sess
     sessions_by_user[sess[:user_id]] = sessions_by_user[sess[:user_id]] ? (sessions_by_user[sess[:user_id]] << sess) : [sess]
     all_browsers << sess[:browser]
@@ -105,16 +105,16 @@ def work(filename = 'data.txt')
 
   report['usersStats'] = {}
 
-  report_preparing_progressbar = ProgressBar.create(
-    title: 'Preparing report data: ',
-    total: report[:totalUsers].to_i,
-    format: '%t %a, %J, %E %B' # elapsed time, percent complete, estimate, bar
-    # output: File.open(File::NULL, 'w') # IN TEST ENV
-  )
+  # report_preparing_progressbar = ProgressBar.create(
+  #   title: 'Preparing report data: ',
+  #   total: report[:totalUsers].to_i,
+  #   format: '%t %a, %J, %E %B' # elapsed time, percent complete, estimate, bar
+  #   # output: File.open(File::NULL, 'w') # IN TEST ENV
+  # )
 
   counter = 0
   while report[:totalUsers] > counter
-    report_preparing_progressbar.increment
+    # report_preparing_progressbar.increment
     u = users_objects.shift
     user_key = u.attributes[:name]
 
