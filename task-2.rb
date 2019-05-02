@@ -27,6 +27,10 @@ class User
   def sessions_time
     sessions.map { |s| s[:time].to_i }
   end
+
+  def browsers
+    sessions.map { |s| s[:browser] }
+  end
 end
 
 def parse_user(user)
@@ -128,7 +132,7 @@ def work(filename = 'data.txt')
     user_key = u.attributes[:name]
 
     user_sessions_time = u.sessions_time
-    user_browsers = u.sessions.map { |s| s[:browser] }
+    user_browsers = u.browsers
 
     report['usersStats'][user_key] = {
       'sessionsCount' => u.sessions.size,
@@ -138,7 +142,6 @@ def work(filename = 'data.txt')
       'usedIE' => !user_browsers.find { |b| b =~ /INTERNET EXPLORER/ }.nil?,
       'alwaysUsedChrome' => !user_browsers.find { |b| b !~ /CHROME/ },
       'dates' => u.sorted_session_dates
-      # line up
     }
     counter += 1
   end
