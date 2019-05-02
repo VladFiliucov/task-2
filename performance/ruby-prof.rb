@@ -7,6 +7,8 @@ require_relative '../task-2.rb'
 
 require 'ruby-prof'
 
+GC.disable
+
 mode = ARGV[0] || "flat"
 
 RubyProf.measure_mode = RubyProf::WALL_TIME
@@ -30,9 +32,7 @@ modes = {
 }
 
 result = RubyProf.profile do
-  GC.disable
   work('sample_data/60000_lines.txt')
-  GC.enable
 end
 
 printer = modes[mode][:klass].new(result)
@@ -42,6 +42,8 @@ if mode != "callgrind"
 else
   printer.print(path: "tmp/", profile: "callgrind")
 end
+
+GC.enable
 
 # # print a graph profile to text
 # printer = RubyProf::GraphPrinter.new(result)

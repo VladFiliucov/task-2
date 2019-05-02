@@ -54,6 +54,31 @@ def parse_session(session)
   }
 end
 
+def process_initial_file(filename)
+  users = []
+  sessions = []
+  total_users = 0
+  total_sessions = 0
+
+  file = File.open(filename, 'r')
+
+  # File.foreach(filename) do |line|
+  while !file.eof?
+   line = file.readline
+    # progressbar.increment
+    if line.start_with?(SESSION_PREFIX)
+      sessions << parse_session(line)
+      next if total_sessions += 1
+    end
+
+    if line.start_with?(USER_PREFIX)
+      users << parse_user(line)
+      total_users += 1
+    end
+  end
+  [users, sessions, total_users, total_sessions]
+end
+
 def work(filename = 'data.txt')
   # progressbar_count = %x( wc -l #{filename} ).to_i
 
@@ -69,25 +94,10 @@ def work(filename = 'data.txt')
     uniqueBrowsersCount: 0,
     totalSessions: 0,
   }
-  users = []
-  sessions = []
+  users, sessions, total_users, total_sessions = process_initial_file(filename)
 
-  file = File.open(filename, 'r')
-
-  # File.foreach(filename) do |line|
-  while !file.eof?
-   line = file.readline
-    # progressbar.increment
-    if line.start_with?(SESSION_PREFIX)
-      sessions << parse_session(line)
-      next if report[:totalSessions] += 1
-    end
-
-    if line.start_with?(USER_PREFIX)
-      users << parse_user(line)
-      report[:totalUsers] += 1
-    end
-  end
+  report[:totalSessions] = total_sessions
+  report[:totalUsers] = total_users
 
   all_browsers = []
   users_objects = []
@@ -148,7 +158,7 @@ def work(filename = 'data.txt')
 
   # Собираем количество сессий по пользователям
 
-  File.write("result.json", report.to_json << "\n")
+  hash_to_json_report(report)
 end
 
 private
@@ -157,6 +167,10 @@ def report_all_browsers(browsers)
   browsers.uniq!
     .sort!
     .join(DELIMITER)
+end
+
+def hash_to_json_report(report)
+  File.write("result.json", report.to_json << "\n")
 end
 #
 # system("sed -n '2p' sample_data/1000_lines.txt")
