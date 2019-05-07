@@ -3,22 +3,22 @@ require_relative '../task-2.rb'
 RSpec.describe "Performance" do
   # This file is using helpers provided by rspec-benchmark gem https://github.com/piotrmurach/rspec-benchmark
   describe 'Processing a file with 100 lines' do
-    it 'allocates 1935 objects' do
+    it 'allocates 1850 objects' do
       expect {
         work('sample_data/100_lines.txt')
-      }.to perform_allocation(1935)
+      }.to perform_allocation(1850)
     end
 
-    it 'performs under 1 ms' do
+    it 'performs under r4 ms' do
       expect {
         work('sample_data/100_lines.txt')
-      }.to perform_under(6).ms
+      }.to perform_under(4).ms
     end
 
-    it 'performs at least 1150 iterations per second' do
+    it 'performs at least 1180 iterations per second' do
       expect {
         work('sample_data/100_lines.txt')
-      }.to perform_at_least(1150).within(0.4).warmup(0.2).ips
+      }.to perform_at_least(1180).within(0.4).warmup(0.2).ips
     end
 
     # Not sure how to do this to get consistent result
