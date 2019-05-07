@@ -2,8 +2,8 @@
 
 require 'json'
 require 'date'
-require 'pry'
-require 'set'
+# require 'pry'
+# require 'set'
 # require 'ruby-progressbar'
 
 DELIMITER = ','.freeze
@@ -35,12 +35,30 @@ class User
 end
 
 def parse_user(user)
-  fields = user.split(',')
-  parsed_result = {
-    id: fields[1],
-    # here
-    name: "#{fields[2]} #{fields[3]}",
-    age: fields[4],
+  id = name = last_name = age = nil
+
+  user.split(',') do |str|
+    if !id
+      id = str
+    elsif !name
+      name = str
+    elsif !last_name
+      last_name = true
+      name << " " << str.chomp
+    elsif !age
+      age = str
+    end
+  end
+  # parsed_result = {
+  #   id: fields[1],
+  #   # here
+  #   name: "#{fields[2]} #{fields[3]}",
+  #   age: fields[4],
+  # }
+  {
+    id: id,
+    name: name,
+    age: age
   }
 end
 
@@ -89,6 +107,7 @@ def process_initial_file(filename)
     end
 
     if line.start_with?(USER_PREFIX)
+      line[0..4] = ''
       users << parse_user(line)
       total_users += 1
     end
