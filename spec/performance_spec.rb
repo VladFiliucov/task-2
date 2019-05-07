@@ -6,7 +6,7 @@ RSpec.describe "Performance" do
     it 'allocates 1850 objects' do
       expect {
         work('sample_data/100_lines.txt')
-      }.to perform_allocation(1850)
+      }.to perform_allocation(1837)
     end
 
     it 'performs under r4 ms' do
@@ -18,7 +18,7 @@ RSpec.describe "Performance" do
     it 'performs at least 1180 iterations per second' do
       expect {
         work('sample_data/100_lines.txt')
-      }.to perform_at_least(1180).within(0.4).warmup(0.2).ips
+      }.to perform_at_least(1190).within(0.4).warmup(0.2).ips
     end
 
     # Not sure how to do this to get consistent result
