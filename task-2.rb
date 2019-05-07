@@ -49,12 +49,7 @@ def parse_user(user)
       age = str
     end
   end
-  # parsed_result = {
-  #   id: fields[1],
-  #   # here
-  #   name: "#{fields[2]} #{fields[3]}",
-  #   age: fields[4],
-  # }
+
   {
     id: id,
     name: name,
