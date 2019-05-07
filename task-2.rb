@@ -3,6 +3,7 @@
 require 'json'
 require 'date'
 require 'pry'
+require 'set'
 # require 'ruby-progressbar'
 
 DELIMITER = ','.freeze
@@ -44,13 +45,28 @@ def parse_user(user)
 end
 
 def parse_session(session)
-  fields = session.split(',')
+  user_id = session_id = browser = time = date = nil
+
+  session.split(',') do |str|
+    if !user_id
+      user_id = str
+    elsif !session_id
+      session_id = str
+    elsif !browser
+      browser = str.upcase!
+    elsif !time
+      time = str
+    elsif !date
+      date = str
+    end
+  end
+
   parsed_result = {
-    user_id: fields[1],
-    session_id: fields[2],
-    browser: fields[3].upcase!,
-    time: fields[4],
-    date: fields[5],
+    user_id: user_id,
+    session_id: session_id,
+    browser: browser,
+    time: time,
+    date: date
   }
 end
 
@@ -67,6 +83,7 @@ def process_initial_file(filename)
    line = file.readline
     # progressbar.increment
     if line.start_with?(SESSION_PREFIX)
+      line[0..7] = ''
       sessions << parse_session(line)
       next if total_sessions += 1
     end
